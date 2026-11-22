@@ -196,6 +196,9 @@ th{font-size:12px;letter-spacing:.06em;text-transform:uppercase;color:var(--mute
 td.n{font-family:var(--f-mono);font-variant-numeric:tabular-nums;white-space:nowrap}
 pre.tree{font-family:var(--f-mono);font-size:13.5px;line-height:1.6;margin:0;overflow-x:auto;background:var(--panel-2);border-radius:8px;padding:12px 14px}
 pre.tree em{font-style:normal;color:var(--muted)}
+code{font-family:var(--f-mono);font-size:.86em;overflow-wrap:anywhere}
+pre.cs{font-family:var(--f-mono);font-size:13px;line-height:1.65;margin:8px 0 10px;overflow-x:auto;background:var(--panel-2);border:1px solid var(--line);border-radius:8px;padding:12px 14px;tab-size:4}
+pre.cs code{font:inherit;overflow-wrap:normal;white-space:pre}
 .trouble{display:grid;grid-template-columns:repeat(auto-fill,minmax(min(100%,340px),1fr));gap:10px}
 .tr{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);padding:12px 16px;min-width:0}
 .tr .q{font-weight:600;margin:0 0 4px}
@@ -215,7 +218,7 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
   <div class="wrap">
     <div class="axes" aria-hidden="true"><i></i><i></i><i></i></div>
     <h1>Пособие по Unity</h1>
-    <p class="lead">Основы движка по порядку: от первого проекта до ландшафта, света и спецэффектов. Каждая глава объясняет, зачем нужна тема, и показывает по шагам, что нажимать. Читай главы подряд или найди нужное через поиск.</p>
+    <p class="lead">Основы движка по порядку: от первого проекта до ландшафта, спецэффектов и программирования на C#. Каждая глава объясняет, зачем нужна тема, и показывает по шагам, что делать. Читай главы подряд или найди нужное через поиск.</p>
     <div class="legend">
       <span><kbd>ПКМ</kbd> правая кнопка мыши</span>
       <span><kbd>ЛКМ</kbd> левая кнопка мыши</span>
@@ -229,7 +232,7 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
   <div class="wrap">
     <div class="search">
       <label for="q" style="position:absolute;left:-9999px">Поиск по пособию</label>
-      <input id="q" type="text" inputmode="search" enterkeyhint="search" placeholder="Поиск: префаб, Tiling, свет, частицы, звук…" autocomplete="off">
+      <input id="q" type="text" inputmode="search" enterkeyhint="search" placeholder="Поиск: префаб, частицы, C#, переменные, триггер…" autocomplete="off">
       <button id="clear" type="button" aria-label="Очистить поиск" hidden>×</button>
     </div>
     <nav class="tabs" aria-label="Главы">
@@ -253,6 +256,10 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
       <a href="#ch17"><b>17</b>Частицы</a>
       <a href="#ch18"><b>18</b>Звук</a>
       <a href="#ch19"><b>19</b>Презентация</a>
+      <a href="#ch20"><b>20</b>C# и скрипты</a>
+      <a href="#ch21"><b>21</b>Переменные</a>
+      <a href="#ch22"><b>22</b>Классы</a>
+      <a href="#ch23"><b>23</b>Триггеры</a>
       <a href="#keys"><b>А</b>Клавиши</a>
       <a href="#fix"><b>Б</b>Если не работает</a>
       <a href="#words"><b>В</b>Словарик</a>
@@ -297,6 +304,13 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
     <li><a href="#ch17"><b>17</b>Визуальные эффекты: система частиц</a></li>
     <li><a href="#ch18"><b>18</b>Звук в игре</a></li>
     <li><a href="#ch19"><b>19</b>Как представить свой проект</a></li>
+  </ul>
+  <p class="toc-h">Программирование на C#</p>
+  <ul class="toc">
+    <li><a href="#ch20"><b>20</b>C#: первые скрипты и GitHub</a></li>
+    <li><a href="#ch21"><b>21</b>Переменные и типы данных</a></li>
+    <li><a href="#ch22"><b>22</b>Классы объектов и наследование</a></li>
+    <li><a href="#ch23"><b>23</b>Столкновения и триггеры</a></li>
   </ul>
   <p class="toc-h">Приложения</p>
   <ul class="toc">
@@ -1960,6 +1974,487 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
   </div>
 </section>
 
+<!-- 20 -->
+<section class="sec" id="ch20">
+  <div class="sec-head">
+    <span class="code">Глава 20</span>
+    <h2>C#: первые скрипты и GitHub</h2>
+    <p>Код задаёт правила игры: что происходит при запуске, как ведут себя персонажи и как игрок взаимодействует с миром.</p>
+  </div>
+  <div class="grid">
+    <div class="card" data-s>
+      <h3>Алгоритм, программа и скрипт</h3>
+      <ul>
+        <li><b>Алгоритм</b> — понятная последовательность действий для достижения цели. Линейный алгоритм выполняет шаги по очереди.</li>
+        <li><b>Программа</b> — алгоритм, записанный на языке программирования. В Unity используем C# («си шарп»).</li>
+        <li><b>Скрипт</b> — файл с кодом. У C#-скрипта расширение <code>.cs</code>.</li>
+        <li><b>Компилятор</b> проверяет код и переводит его в форму, которую может выполнить среда запуска.</li>
+      </ul>
+      <p>На блок-схеме начало и конец обозначают овалами, а действия — прямоугольниками.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Создать и открыть скрипт</h3>
+      <ol>
+        <li>В окне <span class="ui">Project</span> создай папку <span class="ui">Code</span>.</li>
+        <li>Внутри: <span class="path"><span>ПКМ</span><span>Create</span><span>C# Script</span></span>. Сразу введи <code>HelloWorld</code>.</li>
+        <li>Дважды нажми на скрипт: откроется редактор кода.</li>
+        <li>Если открывается другая программа: <span class="path"><span>Edit</span><span>Preferences</span><span>External Tools</span></span> → <span class="ui">External Script Editor</span>. На Windows выбери Visual Studio.</li>
+      </ol>
+      <p>Имена классов и файлов пиши по-английски, без пробелов, начиная с заглавной буквы: <code>HelloWorld.cs</code>, <code>SpeedTrigger.cs</code>. Это стиль <b>PascalCase</b>.</p>
+    </div>
+    <div class="card wide" data-s>
+      <h3>Первый рабочий скрипт: HelloWorld.cs</h3>
+      <pre class="cs"><code>using UnityEngine;
+
+public class HelloWorld : MonoBehaviour
+{
+    void Start()
+    {
+        // Выводим приветствие один раз.
+        print("Hello, World!");
+    }
+
+    void Update()
+    {
+        // Здесь можно выполнять действия каждый кадр.
+    }
+}</code></pre>
+      <div class="tbl"><table>
+        <thead><tr><th>Часть кода</th><th>Зачем нужна</th></tr></thead>
+        <tbody>
+          <tr><td><code>using UnityEngine;</code></td><td>Позволяет обращаться к типам Unity по коротким именам.</td></tr>
+          <tr><td><code>public class HelloWorld</code></td><td>Объявляет класс. Имя компонента должно совпадать с именем файла без <code>.cs</code>.</td></tr>
+          <tr><td><code>: MonoBehaviour</code></td><td>Делает класс наследником базового класса компонентов Unity.</td></tr>
+          <tr><td><code>Start()</code></td><td>Unity вызывает один раз перед первым Update, когда компонент включён на активном объекте.</td></tr>
+          <tr><td><code>Update()</code></td><td>Unity вызывает каждый кадр, пока компонент включён и объект активен. Частота зависит от FPS.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card" data-s>
+      <h3>Правила записи C#</h3>
+      <ul>
+        <li>Обычную инструкцию заканчивай <code>;</code>: <code>print(10);</code>.</li>
+        <li>Блок кода заключай в <code>{ }</code>. У класса и метода после закрывающей скобки точка с запятой не нужна.</li>
+        <li>Вызовы вроде <code>print(...)</code> помещай внутрь метода. Поля объявляют внутри класса, снаружи методов.</li>
+        <li>Текст заключай в прямые двойные кавычки <code>"..."</code>; число можно писать без них.</li>
+        <li>Регистр важен: <code>print</code> и <code>Print</code> — разные имена.</li>
+        <li><code>//</code> начинает комментарий до конца строки.</li>
+      </ul>
+      <p>Отступы помогают читать код. Вложенный блок сдвигай вправо на один уровень; сами границы блока задают скобки.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Прикрепить скрипт и проверить Console</h3>
+      <ol>
+        <li>Сохрани файл в редакторе: <kbd>Ctrl</kbd>+<kbd>S</kbd>. Вернись в Unity и дождись компиляции.</li>
+        <li>Перетащи <code>HelloWorld</code> из Project на объект в Hierarchy или в его Inspector. Для опыта подойдёт пустой объект.</li>
+        <li>Открой <span class="path"><span>Window</span><span>General</span><span>Console</span></span>.</li>
+        <li>Нажми <span class="ui">Play</span>: в Console появится приветствие.</li>
+      </ol>
+      <div class="note tip"><b class="l">Проверь</b>Перенеси <code>print("crickets");</code> в Update: сообщение начнёт повторяться каждый кадр. Включённый <span class="ui">Collapse</span> объединит одинаковые сообщения со счётчиком.</div>
+    </div>
+    <div class="card" data-s>
+      <h3>Удалить объект при запуске</h3>
+      <p>Создай <code>DestroyObject.cs</code> и прикрепи к кубу. <code>gameObject</code> — объект, на котором стоит этот компонент.</p>
+      <pre class="cs"><code>using UnityEngine;
+
+public class DestroyObject : MonoBehaviour
+{
+    void Start()
+    {
+        Destroy(gameObject);
+    }
+}</code></pre>
+      <p>В Play куб исчезнет. После остановки игры объект сцены вернётся.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Создать примитив из кода</h3>
+      <p>Создай <code>CreatePrimitives.cs</code> и прикрепи к пустому объекту. В Start появятся два куба.</p>
+      <pre class="cs"><code>using UnityEngine;
+
+public class CreatePrimitives : MonoBehaviour
+{
+    void Start()
+    {
+        GameObject.CreatePrimitive(PrimitiveType.Cube)
+            .transform.position = new Vector3(0, 0, 0);
+        GameObject.CreatePrimitive(PrimitiveType.Cube)
+            .transform.position = new Vector3(0, 1, 0);
+    }
+}</code></pre>
+      <p><code>new Vector3(x, y, z)</code> задаёт три координаты, а <code>transform.position</code> — позицию в мире. Перенос строки перед точкой продолжает ту же инструкцию.</p>
+      <div class="note warn"><b class="l">Важно</b>В Update новые кубы будут создаваться каждый кадр. Для разового создания используй Start.</div>
+    </div>
+    <div class="card" data-s>
+      <h3>Сохранить учебные скрипты в GitHub</h3>
+      <p><b>Репозиторий</b> — хранилище файлов и истории их изменений. <b>Коммит</b> — сохранённая версия с описанием того, что поменялось.</p>
+      <ol>
+        <li>В GitHub создай репозиторий через <span class="ui">New repository</span>, задай имя проекта и нужную видимость.</li>
+        <li>Открой <span class="path"><span>Add file</span><span>Upload files</span></span>; в пустом репозитории есть ссылка загрузки первого файла.</li>
+        <li>Перетащи нужные <code>.cs</code> из папки проекта <code>Assets/Code</code>.</li>
+        <li>Опиши изменения и нажми <span class="ui">Commit changes</span>. Открой файл на GitHub и проверь код.</li>
+        <li>Поделись ссылкой на файл. <span class="ui">Copy permalink</span> даёт ссылку на конкретную сохранённую версию.</li>
+      </ol>
+      <p><b>README</b> объясняет, что хранится в проекте. Загрузка отдельных скриптов сохраняет код; для переноса целой игры нужны также сцены, ассеты и настройки проекта.</p>
+    </div>
+    <div class="card sum" data-s>
+      <h3>Коротко</h3>
+      <p>Создай .cs → напиши код → сохрани → прикрепи к объекту → Play → проверь Console. Start выполняет действие один раз, Update повторяет каждый кадр. Рабочую версию сохрани в GitHub.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 21 -->
+<section class="sec" id="ch21">
+  <div class="sec-head">
+    <span class="code">Глава 21</span>
+    <h2>Переменные и типы данных</h2>
+    <p>Здоровье, уровень и скорость меняются во время игры. Переменные позволяют хранить эти значения и использовать их в расчётах.</p>
+  </div>
+  <div class="grid">
+    <div class="card wide" data-s>
+      <h3>Три основных типа данных</h3>
+      <p><b>Переменная</b> — именованное место для хранения значения определённого типа. Тип задают перед именем.</p>
+      <div class="tbl"><table>
+        <thead><tr><th>Тип</th><th>Что хранит</th><th>Пример объявления</th></tr></thead>
+        <tbody>
+          <tr><td><code>int</code></td><td>Целое число: здоровье, уровень, число монет</td><td><code>int health = 10;</code></td></tr>
+          <tr><td><code>float</code></td><td>Дробное число: скорость, расстояние</td><td><code>float speed = 1.5f;</code></td></tr>
+          <tr><td><code>string</code></td><td>Строку: имя, реплику, сообщение</td><td><code>string npcName = "Pikachu";</code></td></tr>
+        </tbody>
+      </table></div>
+      <div class="note warn"><b class="l">Синтаксис</b>У дроби ставь точку и суффикс <code>f</code>: <code>1.5f</code>. Строку заключай в <code>"..."</code>. Число <code>10</code> и строка <code>"10"</code> имеют разные типы.</div>
+    </div>
+    <div class="card" data-s>
+      <h3>Объявить, присвоить, изменить</h3>
+      <pre class="cs"><code>int health;      // Объявили переменную.
+health = 5;      // Присвоили значение.
+health = 2;      // Заменили старое значение.
+
+int level = 1;   // Объявили и присвоили сразу.</code></pre>
+      <p>Оператор <code>=</code> записывает значение справа в переменную слева. Когда обновляешь значение, тип повторно писать не нужно.</p>
+      <p>Имена делай понятными, в стиле <b>camelCase</b>: <code>health</code>, <code>jumpSpeed</code>. Начинай с буквы, избегай пробелов и ключевых слов C#. В одном блоке не объявляй одну переменную дважды.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Тип остаётся тем же</h3>
+      <pre class="cs"><code>int health = 5;
+health = 10;       // Подходит: целое число.
+// health = "ten"; // Ошибка: строка вместо int.
+
+float speed = 2.5f;
+speed = 4f;
+
+string greeting = "Hello!";
+greeting = "Привет!";</code></pre>
+      <p>Если присвоить строку переменной int, получишь <code>CS0029</code>. Значение должно подходить типу переменной; преобразования между типами требуют отдельных правил.</p>
+    </div>
+    <div class="card wide" data-s>
+      <h3>Арифметика и короткая запись</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Действие</th><th>Полная запись</th><th>Короткая запись</th></tr></thead>
+        <tbody>
+          <tr><td>Прибавить</td><td><code>health = health + level;</code></td><td><code>health += level;</code></td></tr>
+          <tr><td>Вычесть</td><td><code>health = health - 1;</code></td><td><code>health -= 1;</code></td></tr>
+          <tr><td>Умножить</td><td><code>speed = speed * 2f;</code></td><td><code>speed *= 2f;</code></td></tr>
+          <tr><td>Разделить</td><td><code>speed = speed / 2f;</code></td><td><code>speed /= 2f;</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>Умножение и деление выполняются раньше сложения и вычитания. Скобки меняют порядок: <code>3 * (2 + 1)</code> даст 9.</p>
+      <pre class="cs"><code>int moveDirection = 3;
+int jumpSpeed = 2;
+moveDirection *= jumpSpeed + 1 * 2;
+// То же, что 3 * (2 + 1 * 2). Получится 12.</code></pre>
+      <p>При делении двух int дробная часть отбрасывается: <code>5 / 2</code> даст 2. Для дробного результата используй <code>5f / 2f</code>: получится 2.5.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Порядок команд и текст в Console</h3>
+      <pre class="cs"><code>int health = 3;
+int level = 2;
+
+print("Жизней: " + health); // Жизней: 3
+health += level;
+print("Жизней: " + health); // Жизней: 5</code></pre>
+      <p>Код выполняется по порядку. Первая команда print видит старое значение, вторая — обновлённое.</p>
+      <p>Соединение строк называется <b>конкатенацией</b>. Если слева от <code>+</code> уже строка, число добавится как текст: <code>"Сумма: " + 3 + 2</code> даст «Сумма: 32». Для вычисления пиши <code>"Сумма: " + (3 + 2)</code>.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Поле класса или локальная переменная?</h3>
+      <p><b>Область видимости</b> определяет, где можно обратиться к имени переменной.</p>
+      <pre class="cs"><code>public class Example : MonoBehaviour
+{
+    int health = 5; // Поле класса.
+
+    void Start()
+    {
+        int bonus = 2; // Локальная переменная.
+        health += bonus;
+    }
+
+    void Update()
+    {
+        // health доступна, bonus здесь недоступна.
+    }
+}</code></pre>
+      <p>Поле объявляется внутри класса, снаружи методов, и доступно в его методах. Локальная переменная доступна в своём блоке после объявления. Для отдельного файла добавь сверху <code>using UnityEngine;</code>.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Public, private и Inspector</h3>
+      <pre class="cs"><code>public int health = 5;
+private int level = 1;
+[SerializeField] private float speed = 1.2f;</code></pre>
+      <ul>
+        <li><code>public</code> разрешает доступ из другого кода. Обычные поля int, float и string с таким доступом также видны в Inspector.</li>
+        <li><code>private</code> ограничивает доступ кодом этого класса. У поля без модификатора доступ по умолчанию private.</li>
+        <li><code>[SerializeField]</code> позволяет сохранять и показывать поддерживаемое private-поле в Inspector, сохраняя частный доступ из кода.</li>
+      </ul>
+      <p>Модификаторы доступа пишут у полей, а не у локальных переменных внутри Start или Update.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Почему значение в Inspector важнее?</h3>
+      <p>У каждого компонента на сцене свои сохранённые значения. Если health уже настроено в Inspector, изменение <code>= 5</code> в исходнике может не заменить эту настройку.</p>
+      <ol>
+        <li>Выбери объект и найди нужный компонент.</li>
+        <li>Меняй число прямо в его поле Inspector при остановленном Play.</li>
+        <li>Запусти игру и проверь результат.</li>
+      </ol>
+      <p>Имя <code>jumpSpeed</code> отображается как <span class="ui">Jump Speed</span>. Правка в Inspector меняет данные компонента, а не текст файла .cs. Обычные правки компонента во время Play после остановки отменяются.</p>
+    </div>
+    <div class="card wide" data-s>
+      <h3>Практика: NPC.cs — здоровье и движение</h3>
+      <p>Прикрепи скрипт к кубу или модели NPC. При запуске здоровье увеличится на уровень, затем объект будет двигаться вдоль мировой оси Z.</p>
+      <pre class="cs"><code>using UnityEngine;
+
+public class NPC : MonoBehaviour
+{
+    public int health = 5;
+    public int level = 1;
+    public float speed = 1.2f;
+
+    void Start()
+    {
+        health += level;
+        print("Жизней: " + health);
+    }
+
+    void Update()
+    {
+        Vector3 newPosition = transform.position;
+        newPosition.z += speed * Time.deltaTime;
+        transform.position = newPosition;
+    }
+}</code></pre>
+      <p><code>Vector3</code> хранит три значения: x, y и z. Здесь сначала читаем позицию в локальную переменную, затем меняем z и записываем позицию обратно.</p>
+      <div class="note tip"><b class="l">Зачем deltaTime</b><code>Time.deltaTime</code> — время между кадрами в секундах. Умножение скорости на это время делает перемещение зависимым от прошедшего времени. При speed = 1.2 объект проходит примерно 1.2 единицы за секунду.</div>
+    </div>
+    <div class="card sum wide" data-s>
+      <h3>Коротко</h3>
+      <p>Тип + имя + значение: <code>float speed = 1.2f;</code>. Повторное присваивание обновляет переменную. Поля видны методам класса, локальные переменные — своему блоку. Настраивай параметры компонента в Inspector и учитывай порядок команд.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 22 -->
+<section class="sec" id="ch22">
+  <div class="sec-head">
+    <span class="code">Глава 22</span>
+    <h2>Классы объектов и наследование</h2>
+    <p>У врагов, машин и ускорителей есть общие данные и поведение. Классы позволяют описать эти правила и использовать их для разных объектов.</p>
+  </div>
+  <div class="grid">
+    <div class="card" data-s>
+      <h3>Класс и экземпляр</h3>
+      <p><b>Класс</b> описывает данные и поведение. <b>Экземпляр класса</b> — конкретный объект, созданный по этому описанию. Такой способ организации кода называется <b>объектно-ориентированным программированием (ООП)</b>.</p>
+      <p>У всех NPC есть здоровье, уровень и скорость. Но один NPC может иметь health = 5, другой — health = 10.</p>
+      <div class="flow" aria-label="Один класс NPC и два экземпляра компонентов"><span class="a">Класс NPC</span><b>→</b><span>NPC на кубе: health 5</span><span>NPC на капсуле: health 10</span></div>
+      <p>Прикрепив NPC к двум GameObject, получишь два отдельных экземпляра компонента NPC. Настройки каждого можно менять независимо.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Из чего состоит класс</h3>
+      <ul>
+        <li><b>Поля</b> хранят данные: <code>health</code>, <code>level</code>, <code>speed</code>.</li>
+        <li><b>Методы</b> задают действия: вывести сообщение, переместиться, изменить здоровье.</li>
+      </ul>
+      <pre class="cs"><code>using UnityEngine;
+
+public class Robot : MonoBehaviour
+{
+    public float walkSpeed = 2f;
+
+    public void SayHello()
+    {
+        print("Привет!");
+    }
+}</code></pre>
+      <p>Поля удобно размещать перед методами. У метода после имени есть <code>()</code> и блок <code>{ }</code>. <code>void</code> означает, что он не возвращает результат. SayHello нужно вызвать; само объявление его не запускает.</p>
+    </div>
+    <div class="card wide" data-s>
+      <h3>Как читать объявление класса</h3>
+      <pre class="cs"><code>public class NPC : MonoBehaviour
+{
+    // Поля и методы класса.
+}</code></pre>
+      <div class="tbl"><table>
+        <thead><tr><th>Запись</th><th>Значение</th></tr></thead>
+        <tbody>
+          <tr><td><code>public</code></td><td>Класс доступен из другого кода.</td></tr>
+          <tr><td><code>class</code></td><td>Ключевое слово для объявления класса.</td></tr>
+          <tr><td><code>NPC</code></td><td>Имя нового класса, которое также можно использовать как тип.</td></tr>
+          <tr><td><code>: MonoBehaviour</code></td><td>Двоеточие обозначает наследование от базового класса MonoBehaviour.</td></tr>
+          <tr><td><code>{ ... }</code></td><td>Границы тела класса. Сюда помещаются поля и методы.</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <div class="card" data-s>
+      <h3>Наследование: базовый и производный класс</h3>
+      <p><b>Базовый класс</b> (суперкласс) задаёт общие возможности. <b>Производный класс</b> (подкласс) наследует их и добавляет свои.</p>
+      <pre class="cs"><code>// Отдельный файл RunnerRobot.cs.
+public class RunnerRobot : Robot
+{
+    public float runSpeed = 5f;
+}</code></pre>
+      <p>RunnerRobot использует Robot из примера выше: получает доступ к публичным walkSpeed и SayHello и добавляет runSpeed. Private-члены базового класса напрямую недоступны подклассу.</p>
+      <p>Изменение общих возможностей делают в базовом классе. Добавление runSpeed в RunnerRobot не добавляет это поле в Robot.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>MonoBehaviour связывает код с Unity</h3>
+      <p><code>MonoBehaviour</code> — базовый класс пользовательских компонентов. Через наследование доступны <code>gameObject</code>, <code>transform</code> и <code>print(...)</code>; Unity может вызывать Start, Update и методы триггеров.</p>
+      <p>Обычный C#-класс может существовать и без MonoBehaviour. Но такой класс нельзя прикрепить к GameObject как этот скриптовый компонент.</p>
+      <div class="note warn"><b class="l">Важно</b>Имя файла и класса компонента должны совпадать. В <code>NPC.cs</code> объявляй <code>public class NPC : MonoBehaviour</code>.</div>
+    </div>
+    <div class="card" data-s>
+      <h3>GameObject, компонент и префаб</h3>
+      <ul>
+        <li><b>GameObject</b> — контейнер на сцене. На нём могут стоять Transform, Collider и твой NPC.</li>
+        <li><b>Компонент NPC</b> — экземпляр C#-класса NPC, прикреплённый к этому контейнеру.</li>
+        <li><b>Префаб</b> сохраняет настроенный объект с его компонентами как шаблон ассета.</li>
+      </ul>
+      <p>У C#-наследования и префабов похожа идея повторного использования. Связь классов задаётся в коде через <code>:</code>, а связь экземпляров префаба — в редакторе Unity.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Получить компонент и обратиться к полю</h3>
+      <pre class="cs"><code>// Фрагмент внутри метода компонента.
+NPC npc = GetComponent&lt;NPC&gt;();
+if (npc != null)
+{
+    npc.health += 1;
+}</code></pre>
+      <p><code>GetComponent&lt;NPC&gt;()</code> ищет компонент NPC на том же GameObject. Точка позволяет обратиться к его открытому полю: <code>npc.health</code>.</p>
+      <p>Если компонента нет, результат — <code>null</code>. Проверка <code>if (npc != null)</code> выполняет блок только тогда, когда компонент найден.</p>
+    </div>
+    <div class="card sum" data-s>
+      <h3>Коротко</h3>
+      <p>Класс описывает, экземпляр хранит конкретные значения. Поля — данные, методы — действия. Двоеточие задаёт наследование. MonoBehaviour позволяет классу работать как компоненту Unity.</p>
+    </div>
+  </div>
+</section>
+
+<!-- 23 -->
+<section class="sec" id="ch23">
+  <div class="sec-head">
+    <span class="code">Глава 23</span>
+    <h2>Столкновения и триггеры</h2>
+    <p>Создадим ускоритель: на стрелках персонаж бежит быстрее, после выхода возвращается к прежней скорости.</p>
+  </div>
+  <div class="grid">
+    <div class="card" data-s>
+      <h3>Коллайдер и триггер</h3>
+      <p><b>Collider</b> — невидимая оболочка для физических взаимодействий. Её форма может быть проще модели: Box Collider, Sphere Collider или Capsule Collider.</p>
+      <p>Обычный коллайдер участвует в физических столкновениях. Если включить <span class="ui">Is Trigger</span>, оболочка станет областью обнаружения: через неё можно пройти, а скрипт получит события пересечения.</p>
+      <p><b>Rigidbody</b> — компонент физического тела. Для обычной пары 3D-коллайдеров события триггера требуют Rigidbody хотя бы у одного участника. В учебном платформере он уже есть у игрока.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>Подготовить объект Arrows</h3>
+      <ol>
+        <li>Открой заготовку 3D Platformer через <span class="path"><span>Unity Hub</span><span>Projects</span><span>Add project from disk</span></span>. Выбирай папку с Assets, Packages и ProjectSettings.</li>
+        <li>В Hierarchy выбери <span class="ui">Arrows</span>.</li>
+        <li>В Inspector: <span class="path"><span>Add Component</span><span>Physics</span><span>Box Collider</span></span>.</li>
+        <li>Нажми <span class="ui">Edit Collider</span>. Маркерами растяни оболочку на всю зону стрелок и до высоты, которую пересекает игрок.</li>
+        <li>Включи <span class="ui">Is Trigger</span>. Проверь Collider и Rigidbody у игрока.</li>
+      </ol>
+      <p>Нужна область ускорения над поверхностью. Твёрдый пол под ней оставь отдельным объектом с обычным коллайдером.</p>
+    </div>
+    <div class="card wide" data-s>
+      <h3>Три события триггера</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Метод</th><th>Когда вызывается</th><th>Пример применения</th></tr></thead>
+        <tbody>
+          <tr><td><code>void OnTriggerEnter(Collider other)</code></td><td>При входе другого коллайдера в область</td><td>Включить ускорение</td></tr>
+          <tr><td><code>void OnTriggerStay(Collider other)</code></td><td>Повторяется на шагах физики, пока коллайдер внутри</td><td>Постепенно наносить урон</td></tr>
+          <tr><td><code>void OnTriggerExit(Collider other)</code></td><td>При выходе другого коллайдера из области</td><td>Убрать ускорение</td></tr>
+        </tbody>
+      </table></div>
+      <p><code>other</code> — параметр типа Collider: ссылка на другую оболочку, которая пересекла триггер. Имя параметра можно выбирать, а имена событий и их сигнатуры должны быть точными.</p>
+      <div class="note warn"><b class="l">Важно</b>Не умножай скорость в OnTriggerStay: она будет расти при каждом шаге физики. Для включения и выключения эффекта используй Enter и Exit.</div>
+    </div>
+    <div class="card" data-s>
+      <h3>Как найти скорость игрока</h3>
+      <pre class="cs"><code>other.GetComponent&lt;FirstPersonMovement&gt;().runSpeed</code></pre>
+      <ol>
+        <li><code>other</code> — коллайдер вошедшего объекта.</li>
+        <li><code>GetComponent&lt;FirstPersonMovement&gt;()</code> — поиск компонента движения на GameObject этого коллайдера.</li>
+        <li><code>.runSpeed</code> — открытое поле скорости бега найденного компонента.</li>
+      </ol>
+      <p>В Inspector подписи выглядят как <span class="ui">First Person Movement</span> и <span class="ui">Run Speed</span>, но в C# нужны точные имена <code>FirstPersonMovement</code> и <code>runSpeed</code>.</p>
+    </div>
+    <div class="card" data-s>
+      <h3>План класса ускорителя</h3>
+      <div class="tbl"><table>
+        <thead><tr><th>Что нужно</th><th>Как записать</th></tr></thead>
+        <tbody>
+          <tr><td>Множитель скорости</td><td><code>public float speedFactor = 2.5f;</code></td></tr>
+          <tr><td>Вход в зону</td><td><code>runSpeed *= speedFactor;</code></td></tr>
+          <tr><td>Выход из зоны</td><td><code>runSpeed /= speedFactor;</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>Если скорость бега 8, множитель 2.5 сделает её равной 20. Деление на тот же множитель вернёт 8. Используй положительный speedFactor; для ускорения он должен быть больше 1.</p>
+    </div>
+    <div class="card wide" data-s>
+      <h3>SpeedTrigger.cs — готовый ускоритель</h3>
+      <p>Этот пример использует компонент <code>FirstPersonMovement</code> из учебного проекта и его публичное поле <code>runSpeed</code>. В пустом Unity-проекте такого класса нет: сначала нужен контроллер из заготовки.</p>
+      <pre class="cs"><code>using UnityEngine;
+
+public class SpeedTrigger : MonoBehaviour
+{
+    public float speedFactor = 2.5f;
+
+    void OnTriggerEnter(Collider other)
+    {
+        FirstPersonMovement player = other.GetComponent&lt;FirstPersonMovement&gt;();
+        if (player != null &amp;&amp; speedFactor &gt; 0f)
+        {
+            player.runSpeed *= speedFactor;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        FirstPersonMovement player = other.GetComponent&lt;FirstPersonMovement&gt;();
+        if (player != null &amp;&amp; speedFactor &gt; 0f)
+        {
+            player.runSpeed /= speedFactor;
+        }
+    }
+}</code></pre>
+      <p>Проверка <code>player != null</code> пропускает объекты без нужного компонента, а <code>&amp;&amp;</code> означает «и». Условие <code>speedFactor &gt; 0f</code> исключает нулевой и отрицательный множители.</p>
+      <div class="note warn"><b class="l">Условия примера</b>Используй один коллайдер игрока, расположенный на том же GameObject, что и FirstPersonMovement. Не меняй множитель и скорость другим кодом, пока игрок внутри. Для нескольких коллайдеров или отключения зоны во время эффекта понадобится отдельный учёт входов и сброс ускорения.</div>
+    </div>
+    <div class="card" data-s>
+      <h3>Прикрепить и проверить ускоритель</h3>
+      <ol>
+        <li>Сохрани <code>SpeedTrigger.cs</code> и дождись компиляции без красных ошибок.</li>
+        <li>Прикрепи скрипт к <span class="ui">Arrows</span>, где уже настроен Box Collider с Is Trigger.</li>
+        <li>В Inspector задай <span class="ui">Speed Factor</span> = 2.5 при остановленном Play.</li>
+        <li>Запусти игру. Пробеги по стрелкам, используя управление бегом из заготовки.</li>
+        <li>Проверь: в зоне runSpeed увеличилось, после выхода вернулось. Повтори вход и выход несколько раз.</li>
+      </ol>
+      <p>Меняется именно скорость <b>бега</b>. Если просто идти, эффект может быть незаметен. Если игрок застревает у моста, проверь стык поверхностей и высоту края.</p>
+    </div>
+    <div class="card sum" data-s>
+      <h3>Коротко</h3>
+      <p>Collider задаёт оболочку, Is Trigger превращает её в область событий. Enter включает эффект, Exit снимает. GetComponent находит компонент другого объекта, точка открывает доступ к его полю. Ошибки настройки ищи в <a href="#fix">разделе «Если что-то не работает»</a>.</p>
+    </div>
+  </div>
+</section>
+
 <section class="sec" id="keys">
   <div class="sec-head">
     <span class="code">Приложение А</span>
@@ -1974,6 +2469,7 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
         <div><dt><kbd>F</kbd></dt><dd>подлететь к выбранному объекту</dd></div>
         <div><dt><kbd>Ctrl</kbd>+<kbd>D</kbd></dt><dd>дублировать</dd></div>
         <div><dt><kbd>Ctrl</kbd>+<kbd>S</kbd></dt><dd>сохранить сцену</dd></div>
+        <div><dt><kbd>Ctrl</kbd>+<kbd>S</kbd> в редакторе кода</dt><dd>сохранить скрипт перед возвращением в Unity</dd></div>
         <div><dt><kbd>Ctrl</kbd>+<kbd>Z</kbd></dt><dd>отменить действие</dd></div>
         <div><dt><kbd>Shift</kbd>+клик</dt><dd>выделить несколько объектов</dd></div>
         <div><dt>зажать <kbd>ПКМ</kbd></dt><dd>полёт: <kbd>W</kbd><kbd>A</kbd><kbd>S</kbd><kbd>D</kbd>, вниз <kbd>Q</kbd>, вверх <kbd>E</kbd></dd></div>
@@ -2018,6 +2514,22 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
     <div class="tr" data-s><p class="q">Звук одинаково громкий везде</p><p class="a"><span class="ui">Spatial Blend</span> = 3D и задай <span class="ui">Max Distance</span>.</p></div>
     <div class="tr" data-s><p class="q">Звук затихает, но не пропадает</p><p class="a"><span class="ui">Volume Rolloff</span> = <span class="ui">Linear Rolloff</span>.</p></div>
     <div class="tr" data-s><p class="q">Звука нет совсем</p><p class="a">Проверь AudioClip, Mute, Volume и Play On Awake. В окне Game не должна быть нажата кнопка <span class="ui">Mute Audio</span>.</p></div>
+    <div class="tr" data-s><p class="q">Как прочитать ошибку C# в Console?</p><p class="a">Открой <span class="path"><span>Window</span><span>General</span><span>Console</span></span>. В сообщении есть путь файла, строка и столбец, например <code>Assets/Code/NPC.cs(14,20)</code>, затем код и описание ошибки. Двойной клик откроет место в редакторе. Начинай с первой ошибки и проверь также предыдущую строку.</p></div>
+    <div class="tr" data-s><p class="q">CS1002: ; expected</p><p class="a">Чаще всего пропущена точка с запятой в конце инструкции: <code>print("Hello!");</code>. Проверь указанную и предыдущую строки.</p></div>
+    <div class="tr" data-s><p class="q">CS0029: Cannot implicitly convert type</p><p class="a">Значение не подходит типу переменной. В <code>int health</code> записывай число, а не строку <code>"text"</code>. Для float используй, например, <code>1.5f</code>.</p></div>
+    <div class="tr" data-s><p class="q">CS0103: The name ... does not exist in the current context</p><p class="a">Проверь объявление, регистр имени и область видимости. Переменная из Start недоступна в Update. Если не найден print, проверь наследование <code>: MonoBehaviour</code> и строку <code>using UnityEngine;</code>.</p></div>
+    <div class="tr" data-s><p class="q">CS1519: Invalid token ... in class member declaration</p><p class="a">В теле класса оказалась недопустимая запись. Частая причина — присваивание или вызов команды снаружи метода. Объявление <code>int health = 5;</code> можно оставить у полей, а <code>health += 1;</code> перенеси в Start или другой метод. Проверь фигурные скобки.</p></div>
+    <div class="tr" data-s><p class="q">CS0246: не найден FirstPersonMovement</p><p class="a">Этот класс входит в учебную заготовку 3D Platformer. Проверь наличие скрипта, точное имя и его ошибки компиляции. Если используешь другой контроллер, в SpeedTrigger нужны его класс и поле скорости.</p></div>
+    <div class="tr" data-s><p class="q">Скрипт не прикрепляется к объекту</p><p class="a">Исправь красные ошибки в Console во всём проекте. Убедись, что имя файла совпадает с классом: <code>NPC.cs</code> → <code>public class NPC : MonoBehaviour</code>. Дождись окончания компиляции.</p></div>
+    <div class="tr" data-s><p class="q">Print не работает или Hello, World! не появляется</p><p class="a">Команда пишется со строчной буквы: <code>print("Hello, World!");</code>. Сохрани файл, прикрепи скрипт к активному объекту, включи компонент и нажми Play. В Console должен быть включён показ обычных сообщений.</p></div>
+    <div class="tr" data-s><p class="q">Console заполняется одинаковыми сообщениями</p><p class="a">Проверь, не стоит ли print в Update. Для одного сообщения перенеси вызов в Start. <span class="ui">Collapse</span> объединяет одинаковые записи, но не прекращает их выполнение.</p></div>
+    <div class="tr" data-s><p class="q">Public-поле не появилось в Inspector</p><p class="a">Поле должно быть объявлено в классе, снаружи методов, например <code>public float speed = 1.2f;</code>. Дождись компиляции и выбери объект с этим компонентом. Локальные переменные внутри методов в Inspector не выводятся.</p></div>
+    <div class="tr" data-s><p class="q">Изменил значение в коде, а в игре осталось прежнее</p><p class="a">У компонента уже может быть сохранено значение в Inspector. Выбери нужный экземпляр и измени параметр при остановленном Play. Начальное значение в исходнике не обязано перезаписывать существующие настройки.</p></div>
+    <div class="tr" data-s><p class="q">NullReferenceException при GetComponent</p><p class="a">Возможно, нужный компонент не найден. Проверь, на каком GameObject стоит Collider и где стоит компонент движения. <code>other.GetComponent&lt;FirstPersonMovement&gt;()</code> ищет на объекте other, а не автоматически у его родителя. Перед обращением к полю проверяй результат на <code>null</code>.</p></div>
+    <div class="tr" data-s><p class="q">OnTriggerEnter и OnTriggerExit не срабатывают</p><p class="a">Проверь пересечение двух включённых 3D-коллайдеров: у зоны включён Is Trigger, у игрока есть Collider и Rigidbody. Скрипт должен стоять на зоне. Проверь написание <code>void OnTriggerEnter(Collider other)</code> и разрешённое взаимодействие слоёв в <span class="path"><span>Project Settings</span><span>Physics</span><span>Layer Collision Matrix</span></span>. Компоненты 2D требуют отдельных методов с суффиксом 2D.</p></div>
+    <div class="tr" data-s><p class="q">Ускоритель работает, но скорость постоянно растёт</p><p class="a">Не умножай скорость в OnTriggerStay: этот метод вызывается многократно. Используй OnTriggerEnter для умножения и OnTriggerExit для деления. Для учебного примера у игрока должен быть один коллайдер.</p></div>
+    <div class="tr" data-s><p class="q">После выхода из ускорителя скорость не вернулась</p><p class="a">Проверь OnTriggerExit, выход коллайдера из области и деление на тот же положительный speedFactor. Не меняй множитель в Play, пока игрок в зоне. Несколько коллайдеров, отключение зоны и другие изменения скорости требуют дополнительного учёта эффекта.</p></div>
+    <div class="tr" data-s><p class="q">Ускоритель не меняет скорость ходьбы</p><p class="a">Пример меняет <code>runSpeed</code> — скорость бега, а не ходьбы. Используй управление бегом из учебной заготовки и проверь значение <span class="ui">Run Speed</span> у игрока в Play.</p></div>
   </div>
 </section>
 
@@ -2043,7 +2555,7 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
     <div data-s><dt>Текстура</dt><dd>Картинка с рисунком поверхности.</dd></div>
     <div data-s><dt>Бесшовная текстура</dt><dd>Повторяется плиткой без видимых швов.</dd></div>
     <div data-s><dt>Normal Map</dt><dd>Текстура, которая хранит неровности поверхности.</dd></div>
-    <div data-s><dt>Коллайдер</dt><dd>Невидимая оболочка, делающая объект твёрдым.</dd></div>
+    <div data-s><dt>Коллайдер</dt><dd>Невидимая оболочка для физических столкновений или обнаружения пересечений в режиме триггера.</dd></div>
     <div data-s><dt>Asset Store</dt><dd>Магазин готовых ассетов Unity.</dd></div>
     <div data-s><dt>Билд</dt><dd>Собранная игра для конкретной платформы.</dd></div>
     <div data-s><dt>Terrain</dt><dd>Объект-ландшафт, который лепят кистями.</dd></div>
@@ -2064,6 +2576,35 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
     <div data-s><dt>Audio Source</dt><dd>Компонент, который проигрывает звук.</dd></div>
     <div data-s><dt>3D-звук</dt><dd>Звук, который тише вдали и слышен с нужной стороны.</dd></div>
     <div data-s><dt>Саунд-дизайнер</dt><dd>Специалист по звукам игры.</dd></div>
+    <div data-s><dt>Интерактивность</dt><dd>Взаимодействие игрока с миром и реакция игры на его действия.</dd></div>
+    <div data-s><dt>Алгоритм</dt><dd>Последовательность понятных действий для достижения цели.</dd></div>
+    <div data-s><dt>Программа</dt><dd>Алгоритм, записанный на языке программирования.</dd></div>
+    <div data-s><dt>Скрипт C#</dt><dd>Файл с кодом на языке C#, обычно с расширением .cs.</dd></div>
+    <div data-s><dt>Компилятор</dt><dd>Проверяет исходный код и переводит его в форму для среды выполнения.</dd></div>
+    <div data-s><dt>Синтаксис</dt><dd>Правила записи кода: имена, скобки, операторы и знаки завершения инструкций.</dd></div>
+    <div data-s><dt>Console</dt><dd>Окно Unity с сообщениями программы, предупреждениями и ошибками.</dd></div>
+    <div data-s><dt>Переменная</dt><dd>Именованное место для хранения значения определённого типа.</dd></div>
+    <div data-s><dt>Тип данных</dt><dd>Определяет допустимые значения и операции: int — целое число, float — дробное, string — строка.</dd></div>
+    <div data-s><dt>Присваивание</dt><dd>Запись значения в переменную с помощью оператора =.</dd></div>
+    <div data-s><dt>Конкатенация</dt><dd>Соединение строк, например «Жизней: » и текущего значения здоровья.</dd></div>
+    <div data-s><dt>Область видимости</dt><dd>Часть кода, в которой можно обратиться к имени переменной.</dd></div>
+    <div data-s><dt>Public / private</dt><dd>Модификаторы доступа: public открывает доступ из другого кода, private ограничивает его классом.</dd></div>
+    <div data-s><dt>Класс</dt><dd>Описание данных и поведения объектов. Созданный по нему объект называют экземпляром класса.</dd></div>
+    <div data-s><dt>ООП</dt><dd>Объектно-ориентированное программирование: организация кода через классы и объекты.</dd></div>
+    <div data-s><dt>Поле</dt><dd>Переменная, объявленная внутри класса и снаружи его методов.</dd></div>
+    <div data-s><dt>Метод</dt><dd>Именованный блок кода, который выполняет действие. Для вызова после имени пишут круглые скобки.</dd></div>
+    <div data-s><dt>Наследование</dt><dd>Создание производного класса на основе базового с использованием его возможностей.</dd></div>
+    <div data-s><dt>MonoBehaviour</dt><dd>Базовый класс пользовательских компонентов, которые прикрепляют к GameObject.</dd></div>
+    <div data-s><dt>Start / Update</dt><dd>Методы жизненного цикла: Start вызывается один раз перед первым Update, Update — каждый кадр у включённого компонента активного объекта.</dd></div>
+    <div data-s><dt>Vector3</dt><dd>Тип Unity с тремя числовыми компонентами x, y и z, например для позиции в пространстве.</dd></div>
+    <div data-s><dt>Time.deltaTime</dt><dd>Время между кадрами в секундах. Помогает рассчитывать перемещение по скорости за секунду.</dd></div>
+    <div data-s><dt>GetComponent</dt><dd>Метод поиска компонента указанного типа на GameObject. Если компонент не найден, возвращает null.</dd></div>
+    <div data-s><dt>Триггер</dt><dd>Коллайдер с Is Trigger: область, которая сообщает о пересечениях, позволяя проходить через неё.</dd></div>
+    <div data-s><dt>Rigidbody</dt><dd>Компонент физического тела Unity. Участвует в симуляции движения и столкновений.</dd></div>
+    <div data-s><dt>NPC</dt><dd>Неигровой персонаж, поведение которого задаёт программа.</dd></div>
+    <div data-s><dt>Репозиторий GitHub</dt><dd>Хранилище файлов проекта и истории их изменений.</dd></div>
+    <div data-s><dt>Коммит</dt><dd>Сохранённая версия изменений с сообщением о том, что сделано.</dd></div>
+    <div data-s><dt>README</dt><dd>Файл с описанием проекта и пояснениями по его использованию.</dd></div>
   </dl>
 </section>
 
@@ -2114,3 +2655,4 @@ footer{color:var(--muted);font-size:14px;padding-block:24px 40px;border-top:1px 
 </script>
 </body>
 </html>
+
